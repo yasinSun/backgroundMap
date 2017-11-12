@@ -81,7 +81,7 @@
 </style>
 <body>
 <div id = 'div1' style = "background:#cceeff;">
-	<div style = "text-align:center;margin-top:40px;" >
+	<div style = "text-align:center;margin-top:20px;" >
 		<table id = 'table' >
 			<tr>
 				<text class = 'txt' style = "color:#9933cc">行车信息显示</text>
@@ -115,7 +115,7 @@
 
 
 
-	<div style = "text-align:center;margin-top:70px;" >
+	<div style = "text-align:center;margin-top:30px;" >
 		<table style = "width:100%;">
 			<tr>
 				<text class = 'txt' style = "color:#9933cc">功能模块</text>
@@ -140,13 +140,13 @@
 			</tr>
 		</table>
 	</div>
-	<div style = "margin-top:70px;width:100%;">
+	<div style = "margin-top:30px;width:100%;">
 		<div style = "width:100%;text-align:center;">
 			<text class = 'txt' style = "color:#9933cc;text-align:center;">坐标拾取器</text>
 		</div>	
 		<input type = "text" style = "width:100%;text-align:center;" class = "ipt" name = "lng_lat" id = "lng_lat" />
 	</div>
-	<div style = "position:absolute;bottom:30px;">
+<!--	<div style = "position:absolute;bottom:30px;">
 		<div style = "width:100%;text-align:center;">
 			<text style = "font-size:20px;font-weight:bold;color:#ff6666;font:微软雅黑;text-align:center;">同济大学</text>
 		</div>
@@ -156,6 +156,7 @@
 		<div style = "width:100%;text-align:center;">
 			<text style = "font-size:20px;font-weight:bold;color:#ff6666;font:微软雅黑;text-align:center;">宽带无线通信与多媒体实验室</text>
 		</div>
+-->
 	</div>
 </div>
 <div id="allmap"></div>
@@ -550,11 +551,13 @@
 			
 			if(i == markers.length)
 			{//这个车目前还不存在
+				//console.log("a new car found, ID is "+jsonObj.id);
+				//console.log(jsonObj);
 				timeStamps[carNumbers] = new Date().getTime();
 				points[carNumbers] = new BMap.Point(jsonObj.longitude,jsonObj.latitude);
 				points[carNumbers] = transformCoord(points[carNumbers]);//坐标转换
 				markers[carNumbers] = new BMap.Marker(points[carNumbers]);
-				infos[carNumbers] = new Array(8);
+				infos[carNumbers] = new Array(6);
 				infos[carNumbers][0] = jsonObj.id;
 				infos[carNumbers][1] = jsonObj.longitude;
 				infos[carNumbers][2] = jsonObj.latitude;
@@ -631,14 +634,16 @@
 		var now = new Date().getTime();
 		for(var j = 0;j < timeStamps.length;j++)
 		{
-			if((now - timestamps[j]) >1500)
+			if((now - timeStamps[j]) >4500)
 			{
+				map.removeOverlay(markers[j])
 				points.splice(j,1);
 				markers.splice(j,1);
 				infoWindows.splice(j,1);
 				infos.splice(j,1);	
 				timeStamps.splice(j,1);	
-				console.log("a car have lost");		
+				console.log("a car have lost");	
+				console.log("other cars number is "+markers.length);	
 			}
 		}
 	}
